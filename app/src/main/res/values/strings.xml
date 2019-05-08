@@ -2,4 +2,6 @@
     <string name="app_name">DuckHunt</string>
     <string name="login_et_name_hint">Introduce tu nick</string>
     <string name="login_bt_init_game_text">Iniciar Juego</string>
+    <string name="login_et_name_error">El nombre de usuario es obligatorio</string>
+    <string name="login_et_name_error_length">El nombre de usuario debe tener 3 caracteres o más</string>
 </resources>

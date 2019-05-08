@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_game"
     android:padding="16dp"
-    tools:context=".LoginActivity">
+    tools:context=".Activities.LoginActivity">
 
     <ImageView
         android:id="@+id/iv_title"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/ed_name"
+        android:id="@+id/ed_nickname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -33,11 +33,12 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_title" />
 
     <Button
+        android:id="@+id/btn_login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/ed_name"
-        app:layout_constraintStart_toStartOf="@+id/ed_name"
-        app:layout_constraintTop_toBottomOf="@+id/ed_name"
+        app:layout_constraintEnd_toEndOf="@+id/ed_nickname"
+        app:layout_constraintStart_toStartOf="@+id/ed_nickname"
+        app:layout_constraintTop_toBottomOf="@+id/ed_nickname"
         android:text="@string/login_bt_init_game_text"
         android:backgroundTint="@color/colorPrimary"
         android:textColor="@android:color/white"
