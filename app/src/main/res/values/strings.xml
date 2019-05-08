@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DuckHunt</string>
+    <string name="login_et_name_hint">Introduce tu nick</string>
+    <string name="login_bt_init_game_text">Iniciar Juego</string>
 </resources>
