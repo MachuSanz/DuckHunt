@@ -1,7 +1,9 @@
 package machucapps.com.duckhunt.Activities;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +25,9 @@ public class LoginActivity extends AppCompatActivity
 	@BindView ( R.id.ed_nickname )
 	EditText mEtUserNickName;
 
+	@BindView ( R.id.btn_login )
+	Button mBtnLogin;
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -34,6 +39,18 @@ public class LoginActivity extends AppCompatActivity
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_login );
 		ButterKnife.bind( this );
+		setCustomTypeface();
+
+	}
+
+	/**
+	 * Set Custom Typeface
+	 */
+	private void setCustomTypeface()
+	{
+		Typeface typeface = Typeface.createFromAsset( getAssets(), "pixel.ttf" );
+		mEtUserNickName.setTypeface( typeface );
+		mBtnLogin.setTypeface( typeface );
 	}
 
 	/**

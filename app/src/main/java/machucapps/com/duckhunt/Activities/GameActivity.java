@@ -1,11 +1,13 @@
 package machucapps.com.duckhunt.Activities;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import machucapps.com.duckhunt.R;
 import machucapps.com.duckhunt.Utils.Constants;
 
@@ -37,7 +39,20 @@ public class GameActivity extends AppCompatActivity
 	{
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_game );
+		ButterKnife.bind( this );
 		getIntentExtras();
+		setCustomTypeface();
+	}
+
+	/**
+	 * Set Custom Typeface
+	 */
+	private void setCustomTypeface()
+	{
+		Typeface typeface = Typeface.createFromAsset( getAssets(), "pixel.ttf" );
+		mTvDuckHuntedCounter.setTypeface( typeface );
+		mTvUserNickName.setTypeface( typeface );
+		mTvTimer.setTypeface( typeface );
 	}
 
 	/**
@@ -55,6 +70,6 @@ public class GameActivity extends AppCompatActivity
 	 */
 	private void setNickName( String nickName )
 	{
-		mTvDuckHuntedCounter.setText( nickName );
+		mTvUserNickName.setText( nickName );
 	}
 }
