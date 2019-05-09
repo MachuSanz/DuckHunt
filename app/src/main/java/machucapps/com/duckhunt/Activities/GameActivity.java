@@ -5,6 +5,7 @@ import java.util.Random;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.Display;
 import android.widget.ImageView;
@@ -69,6 +70,7 @@ public class GameActivity extends AppCompatActivity
 		getIntentExtras();
 		setCustomTypeface();
 		initScreen();
+		initCountDown();
 	}
 
 	/**
@@ -94,6 +96,24 @@ public class GameActivity extends AppCompatActivity
 		mScreenWidth = size.x;
 		mScreenHeight = size.y;
 		mRandom = new Random();
+	}
+
+	private void initCountDown()
+	{
+		new CountDownTimer( 60000 , 1000 )
+		{
+
+			public void onTick( long millisUntilFinished )
+			{
+				mTvTimer.setText( String.valueOf( millisUntilFinished / 1000 ).concat( "s" ) );
+			}
+
+			public void onFinish()
+			{
+				mTvTimer.setText( "0s" );
+			}
+		}.start();
+
 	}
 
 	/**
