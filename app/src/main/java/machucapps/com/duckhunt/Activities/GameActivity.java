@@ -2,12 +2,14 @@ package machucapps.com.duckhunt.Activities;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import machucapps.com.duckhunt.R;
 import machucapps.com.duckhunt.Utils.Constants;
 
@@ -28,6 +30,14 @@ public class GameActivity extends AppCompatActivity
 
 	@BindView ( R.id.tv_timer )
 	TextView mTvTimer;
+
+	@BindView ( R.id.iv_duck )
+	ImageView mIvDuck;
+
+	/**
+	 * Number of ducks hunted
+	 */
+	private int counter = 0;
 
 	/**
 	 * {@inheritDoc}
@@ -71,5 +81,15 @@ public class GameActivity extends AppCompatActivity
 	private void setNickName( String nickName )
 	{
 		mTvUserNickName.setText( nickName );
+	}
+
+	/**
+	 * Duck's click event
+	 */
+	@OnClick ( R.id.iv_duck )
+	public void onDuckClick()
+	{
+		mTvDuckHuntedCounter.setText( String.valueOf( ++counter ) );
+
 	}
 }
