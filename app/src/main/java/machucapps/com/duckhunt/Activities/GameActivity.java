@@ -1,7 +1,12 @@
 package machucapps.com.duckhunt.Activities;
 
+import java.util.Random;
+
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Display;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,7 +42,18 @@ public class GameActivity extends AppCompatActivity
 	/**
 	 * Number of ducks hunted
 	 */
-	private int counter = 0;
+	private int mCounter = 0;
+
+	/**
+	 * Screen's height and width
+	 */
+	private int mScreenHeight;
+	private int mScreenWidth;
+
+	/**
+	 * Object random
+	 */
+	private Random mRandom;
 
 	/**
 	 * {@inheritDoc}
@@ -52,6 +68,7 @@ public class GameActivity extends AppCompatActivity
 		ButterKnife.bind( this );
 		getIntentExtras();
 		setCustomTypeface();
+		initScreen();
 	}
 
 	/**
@@ -63,6 +80,20 @@ public class GameActivity extends AppCompatActivity
 		mTvDuckHuntedCounter.setTypeface( typeface );
 		mTvUserNickName.setTypeface( typeface );
 		mTvTimer.setTypeface( typeface );
+	}
+
+	/**
+	 * Init Duck position
+	 */
+	private void initScreen()
+	{
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize( size );
+
+		mScreenWidth = size.x;
+		mScreenHeight = size.y;
+		mRandom = new Random();
 	}
 
 	/**
@@ -89,7 +120,28 @@ public class GameActivity extends AppCompatActivity
 	@OnClick ( R.id.iv_duck )
 	public void onDuckClick()
 	{
-		mTvDuckHuntedCounter.setText( String.valueOf( ++counter ) );
+		mTvDuckHuntedCounter.setText( String.valueOf( ++mCounter ) );
+		mIvDuck.setImageResource( R.drawable.duck_clicked );
 
+		new Handler().postDelayed( () -> {
+			mIvDuck.setImageResource( R.drawable.duck );
+			moveDuck();
+		}, 500 );
+	}
+
+	/**
+	 * Change duck's position when it's hunted
+	 */
+	private void moveDuck()
+	{
+		int xMin = 0;
+		int xMax = mScreenWidth - mIvDuck.getWidth();
+		int yMax = mScreenHeight - mIvDuck.getHeight();
+
+		int randomX = mRandom.nextInt( ( xMax - xMin ) + 1 );
+		int randomY = mRandom.nextInt( ( yMax - xMin ) + 1 );
+
+		mIvDuck.setX( randomX );
+		mIvDuck.setY( randomY );
 	}
 }
