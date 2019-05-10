@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity
 	{
 		Intent initGameActivityIntent = new Intent( LoginActivity.this , GameActivity.class );
 		initGameActivityIntent.putExtra( Constants.NICK_NAME_EXTRA, nickName );
+		mEtUserNickName.setText( "" );
 		startActivity( initGameActivityIntent );
-		finish();
 	}
 }

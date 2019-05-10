@@ -2,7 +2,6 @@ package machucapps.com.duckhunt.Activities;
 
 import java.util.Random;
 
-import android.content.DialogInterface;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -58,6 +57,9 @@ public class GameActivity extends AppCompatActivity
 	 */
 	private Random mRandom;
 
+	/**
+	 * Check Game Over
+	 */
 	private boolean mGameOver = false;
 
 	/**
@@ -74,6 +76,7 @@ public class GameActivity extends AppCompatActivity
 		getIntentExtras();
 		setCustomTypeface();
 		initScreen();
+		moveDuck();
 		initCountDown();
 	}
 
@@ -104,7 +107,7 @@ public class GameActivity extends AppCompatActivity
 
 	private void initCountDown()
 	{
-		new CountDownTimer( 60000 , 1000 )
+		new CountDownTimer( 10000 , 1000 )
 		{
 
 			public void onTick( long millisUntilFinished )
@@ -129,23 +132,20 @@ public class GameActivity extends AppCompatActivity
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder( this );
 		builder.setMessage( getString( R.string.game_over_dialog_message, mCounter ) ).setTitle( getString( R.string.game_over_dialog_title ) );
-		builder.setPositiveButton( getString( R.string.game_over_dialog_positive_message_text ), new DialogInterface.OnClickListener()
-		{
-			@Override
-			public void onClick( DialogInterface dialogInterface, int i )
-			{
 
-			}
+		builder.setPositiveButton( getString( R.string.game_over_dialog_positive_message_text ), ( dialogInterface, i ) -> {
+			mCounter = 0;
+			mTvDuckHuntedCounter.setText( String.valueOf( mCounter ) );
+			mGameOver = false;
+			initCountDown();
+			moveDuck();
 		} );
-		builder.setNegativeButton( getString( R.string.game_over_dialog_negative_message_text ), new DialogInterface.OnClickListener()
-		{
-			@Override
-			public void onClick( DialogInterface dialogInterface, int i )
-			{
-				dialogInterface.dismiss();
-				finish();
-			}
+
+		builder.setNegativeButton( getString( R.string.game_over_dialog_negative_message_text ), ( dialogInterface, i ) -> {
+			dialogInterface.dismiss();
+			finish();
 		} );
+
 		AlertDialog dialog = builder.create();
 		dialog.setCancelable( false );
 		dialog.show();
