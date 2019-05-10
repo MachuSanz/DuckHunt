@@ -4,4 +4,8 @@
     <string name="login_bt_init_game_text">Iniciar Juego</string>
     <string name="login_et_name_error">El nombre de usuario es obligatorio</string>
     <string name="login_et_name_error_length">El nombre de usuario debe tener 3 caracteres o más</string>
+    <string name="game_over_dialog_title">Game Over</string>
+    <string name="game_over_dialog_message">Has cazado %1$d patos</string>
+    <string name="game_over_dialog_positive_message_text">Reiniciar</string>
+    <string name="game_over_dialog_negative_message_text">Salir</string>
 </resources>

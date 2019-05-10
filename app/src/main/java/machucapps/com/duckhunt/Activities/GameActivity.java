@@ -2,6 +2,7 @@ package machucapps.com.duckhunt.Activities;
 
 import java.util.Random;
 
+import android.content.DialogInterface;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.Display;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import butterknife.BindView;
@@ -55,6 +57,8 @@ public class GameActivity extends AppCompatActivity
 	 * Object random
 	 */
 	private Random mRandom;
+
+	private boolean mGameOver = false;
 
 	/**
 	 * {@inheritDoc}
@@ -110,9 +114,41 @@ public class GameActivity extends AppCompatActivity
 
 			public void onFinish()
 			{
+				mGameOver = true;
 				mTvTimer.setText( "0s" );
+				showGameOverDialog();
 			}
 		}.start();
+
+	}
+
+	/**
+	 * Show GameOver's dialog
+	 */
+	private void showGameOverDialog()
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder( this );
+		builder.setMessage( getString( R.string.game_over_dialog_message, mCounter ) ).setTitle( getString( R.string.game_over_dialog_title ) );
+		builder.setPositiveButton( getString( R.string.game_over_dialog_positive_message_text ), new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick( DialogInterface dialogInterface, int i )
+			{
+
+			}
+		} );
+		builder.setNegativeButton( getString( R.string.game_over_dialog_negative_message_text ), new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick( DialogInterface dialogInterface, int i )
+			{
+				dialogInterface.dismiss();
+				finish();
+			}
+		} );
+		AlertDialog dialog = builder.create();
+		dialog.setCancelable( false );
+		dialog.show();
 
 	}
 
@@ -140,13 +176,17 @@ public class GameActivity extends AppCompatActivity
 	@OnClick ( R.id.iv_duck )
 	public void onDuckClick()
 	{
-		mTvDuckHuntedCounter.setText( String.valueOf( ++mCounter ) );
-		mIvDuck.setImageResource( R.drawable.duck_clicked );
+		if ( !mGameOver )
+		{
+			mTvDuckHuntedCounter.setText( String.valueOf( ++mCounter ) );
+			mIvDuck.setImageResource( R.drawable.duck_clicked );
 
-		new Handler().postDelayed( () -> {
-			mIvDuck.setImageResource( R.drawable.duck );
-			moveDuck();
-		}, 500 );
+			new Handler().postDelayed( () -> {
+				mIvDuck.setImageResource( R.drawable.duck );
+				moveDuck();
+			}, 500 );
+		}
+
 	}
 
 	/**
