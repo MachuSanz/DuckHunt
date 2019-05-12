@@ -2,6 +2,8 @@ package machucapps.com.duckhunt.activities;
 
 import java.util.Random;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -63,6 +65,16 @@ public class GameActivity extends AppCompatActivity
 	private boolean mGameOver = false;
 
 	/**
+	 * User's Id
+	 */
+	private String mUserId;
+
+	/**
+	 * Database
+	 */
+	private FirebaseFirestore db;
+
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @param savedInstanceState
@@ -73,11 +85,34 @@ public class GameActivity extends AppCompatActivity
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_game );
 		ButterKnife.bind( this );
+		initDatabase();
 		getIntentExtras();
 		setCustomTypeface();
 		initScreen();
 		moveDuck();
 		initCountDown();
+	}
+
+	/**
+	 * Init Firestone connection
+	 */
+	private void initDatabase()
+	{
+		db = FirebaseFirestore.getInstance();
+	}
+
+	/**
+	 * Get Intent Extras
+	 */
+	private void getIntentExtras()
+	{
+		Bundle extras = getIntent().getExtras();
+		if ( extras != null && extras.getString( Constants.NICK_NAME_EXTRA ) != null && extras.getString( Constants.ID_EXTRA ) != null )
+		{
+			String nick = extras.getString( Constants.NICK_NAME_EXTRA );
+			mUserId = extras.getString( Constants.ID_EXTRA );
+			setNickName( nick );
+		}
 	}
 
 	/**
@@ -105,6 +140,9 @@ public class GameActivity extends AppCompatActivity
 		mRandom = new Random();
 	}
 
+	/**
+	 * Init Count Down
+	 */
 	private void initCountDown()
 	{
 		new CountDownTimer( 10000 , 1000 )
@@ -120,9 +158,20 @@ public class GameActivity extends AppCompatActivity
 				mGameOver = true;
 				mTvTimer.setText( "0s" );
 				showGameOverDialog();
+				saveResultFirestore( mCounter );
 			}
 		}.start();
 
+	}
+
+	/**
+	 * Update and save result on database
+	 * 
+	 * @param numDucks - final ducks hunted
+	 */
+	private void saveResultFirestore( int numDucks )
+	{
+		db.collection( Constants.DB_USERS_COLLECTION ).document( mUserId ).update( Constants.DB_FIELD_DUCKS, numDucks );
 	}
 
 	/**
@@ -150,16 +199,6 @@ public class GameActivity extends AppCompatActivity
 		dialog.setCancelable( false );
 		dialog.show();
 
-	}
-
-	/**
-	 * Get Intent Extras
-	 */
-	private void getIntentExtras()
-	{
-		Bundle extras = getIntent().getExtras();
-		String nick = extras.getString( Constants.NICK_NAME_EXTRA );
-		setNickName( nick );
 	}
 
 	/**

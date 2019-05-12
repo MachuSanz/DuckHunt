@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity
 			}
 			else
 			{
-				saveNickAndStart(nickname);
+				saveNickAndStart( nickname );
 			}
 		} );
 	}
@@ -115,6 +115,7 @@ public class LoginActivity extends AppCompatActivity
 		db.collection( Constants.DB_USERS_COLLECTION ).add( new User( nickName , 0 ) ).addOnSuccessListener( documentReference -> {
 			Intent initGameActivityIntent = new Intent( LoginActivity.this , GameActivity.class );
 			initGameActivityIntent.putExtra( Constants.NICK_NAME_EXTRA, nickName );
+			initGameActivityIntent.putExtra( Constants.ID_EXTRA, documentReference.getId() );
 			mEtUserNickName.setText( "" );
 			startActivity( initGameActivityIntent );
 		} );
