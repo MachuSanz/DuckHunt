@@ -1,4 +1,6 @@
-package machucapps.com.duckhunt.Activities;
+package machucapps.com.duckhunt.activities;
+
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -12,7 +14,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import machucapps.com.duckhunt.R;
-import machucapps.com.duckhunt.Utils.Constants;
+import machucapps.com.duckhunt.models.User;
+import machucapps.com.duckhunt.utils.Constants;
 
 /**
  * Login Activity
@@ -29,6 +32,11 @@ public class LoginActivity extends AppCompatActivity
 	Button mBtnLogin;
 
 	/**
+	 * Database
+	 */
+	private FirebaseFirestore db;
+
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @param savedInstanceState
@@ -39,8 +47,17 @@ public class LoginActivity extends AppCompatActivity
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_login );
 		ButterKnife.bind( this );
+		initDatabase();
 		setCustomTypeface();
 
+	}
+
+	/**
+	 * Init Firestone connection
+	 */
+	private void initDatabase()
+	{
+		db = FirebaseFirestore.getInstance();
 	}
 
 	/**
@@ -69,18 +86,38 @@ public class LoginActivity extends AppCompatActivity
 		}
 		else if ( mEtUserNickName != null && mEtUserNickName.getText() != null && !mEtUserNickName.getText().toString().isEmpty() )
 		{
-			initGameActivity( mEtUserNickName.getText().toString() );
+			checkUserExists( mEtUserNickName.getText().toString().toLowerCase() );
 		}
+	}
+
+	/**
+	 * Check if user already exists
+	 */
+	private void checkUserExists( String nickname )
+	{
+		db.collection( Constants.DB_USERS_COLLECTION ).whereEqualTo( Constants.DB_FIELD_NICK, nickname ).get().addOnSuccessListener( queryDocumentSnapshots -> {
+			if ( queryDocumentSnapshots.size() > 0 )
+			{
+				mEtUserNickName.setError( getString( R.string.login_et_name_error_not_available ) );
+			}
+			else
+			{
+				saveNickAndStart(nickname);
+			}
+		} );
 	}
 
 	/**
 	 * Launch Game Activity
 	 */
-	private void initGameActivity( String nickName )
+	private void saveNickAndStart( String nickName )
 	{
-		Intent initGameActivityIntent = new Intent( LoginActivity.this , GameActivity.class );
-		initGameActivityIntent.putExtra( Constants.NICK_NAME_EXTRA, nickName );
-		mEtUserNickName.setText( "" );
-		startActivity( initGameActivityIntent );
+		db.collection( Constants.DB_USERS_COLLECTION ).add( new User( nickName , 0 ) ).addOnSuccessListener( documentReference -> {
+			Intent initGameActivityIntent = new Intent( LoginActivity.this , GameActivity.class );
+			initGameActivityIntent.putExtra( Constants.NICK_NAME_EXTRA, nickName );
+			mEtUserNickName.setText( "" );
+			startActivity( initGameActivityIntent );
+		} );
+
 	}
 }

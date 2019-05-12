@@ -1,4 +1,4 @@
-package machucapps.com.duckhunt.Activities;
+package machucapps.com.duckhunt.activities;
 
 import java.util.Random;
 
@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import machucapps.com.duckhunt.R;
-import machucapps.com.duckhunt.Utils.Constants;
+import machucapps.com.duckhunt.utils.Constants;
 
 /**
  * Game Activity Class
