@@ -9,5 +9,7 @@
     <string name="game_over_dialog_message">Has cazado %1$d patos</string>
     <string name="game_over_dialog_positive_message_text">Reiniciar</string>
     <string name="game_over_dialog_negative_message_text">Salir</string>
+    <string name="game_over_dialog_neutral_message_text">Ranking</string>
+    <string name="ranking_position">%1$d º</string>
     <string name="title_activity_ranking">RankingActivity</string>
 </resources>

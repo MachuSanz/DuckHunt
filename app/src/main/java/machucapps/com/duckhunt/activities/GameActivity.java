@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -195,10 +196,22 @@ public class GameActivity extends AppCompatActivity
 			finish();
 		} );
 
+		builder.setNeutralButton( getString( R.string.game_over_dialog_neutral_message_text ), ( ( dialogInterface, i ) -> {
+			initRankingActivity();
+		} ) );
+
 		AlertDialog dialog = builder.create();
 		dialog.setCancelable( false );
 		dialog.show();
 
+	}
+
+	/**
+	 * Init Ranking Activity
+	 */
+	private void initRankingActivity()
+	{
+		startActivity( new Intent( GameActivity.this , RankingActivity.class ) );
 	}
 
 	/**

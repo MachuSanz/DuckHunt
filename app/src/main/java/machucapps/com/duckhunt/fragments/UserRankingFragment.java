@@ -21,7 +21,7 @@ import machucapps.com.duckhunt.models.User;
 /**
  * User Rabking Fragment
  */
-public class UserRankingFragmentFragment extends Fragment
+public class UserRankingFragment extends Fragment
 {
 
 	private static final String ARG_COLUMN_COUNT = "column-count";
@@ -32,7 +32,7 @@ public class UserRankingFragmentFragment extends Fragment
 	/**
 	 * Constructor
 	 */
-	public UserRankingFragmentFragment()
+	public UserRankingFragment()
 	{
 	}
 
@@ -42,9 +42,9 @@ public class UserRankingFragmentFragment extends Fragment
 	 * @return
 	 */
 	@SuppressWarnings ( "unused" )
-	public static UserRankingFragmentFragment newInstance( int columnCount )
+	public static UserRankingFragment newInstance(int columnCount )
 	{
-		UserRankingFragmentFragment fragment = new UserRankingFragmentFragment();
+		UserRankingFragment fragment = new UserRankingFragment();
 		Bundle args = new Bundle();
 		args.putInt( ARG_COLUMN_COUNT, columnCount );
 		fragment.setArguments( args );
@@ -78,7 +78,7 @@ public class UserRankingFragmentFragment extends Fragment
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
-		View view = inflater.inflate( R.layout.fragment_userrankingfragment_list, container, false );
+		View view = inflater.inflate( R.layout.fragment_user_ranking_list, container, false );
 
 		// Set the adapter
 		if ( view instanceof RecyclerView )
