@@ -7,9 +7,10 @@
 
     <TextView
         android:id="@+id/tv_position"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/tv_ducks"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,9 +18,9 @@
 
     <TextView
         android:id="@+id/tv_ducks"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/tv_nick"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tv_position"
@@ -27,9 +28,9 @@
 
     <TextView
         android:id="@+id/tv_nick"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tv_ducks"

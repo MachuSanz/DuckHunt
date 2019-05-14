@@ -3,20 +3,22 @@ package machucapps.com.duckhunt.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import machucapps.com.duckhunt.R;
 import machucapps.com.duckhunt.adapters.UserRankingAdapter;
 import machucapps.com.duckhunt.models.User;
+import machucapps.com.duckhunt.utils.Constants;
 
 /**
  * User Rabking Fragment
@@ -24,10 +26,10 @@ import machucapps.com.duckhunt.models.User;
 public class UserRankingFragment extends Fragment
 {
 
-	private static final String ARG_COLUMN_COUNT = "column-count";
-	private int mColumnCount = 1;
 	List<User> mUserList;
 	UserRankingAdapter mAdapter;
+
+	FirebaseFirestore db;
 
 	/**
 	 * Constructor
@@ -42,12 +44,9 @@ public class UserRankingFragment extends Fragment
 	 * @return
 	 */
 	@SuppressWarnings ( "unused" )
-	public static UserRankingFragment newInstance(int columnCount )
+	public static UserRankingFragment newInstance( int columnCount )
 	{
 		UserRankingFragment fragment = new UserRankingFragment();
-		Bundle args = new Bundle();
-		args.putInt( ARG_COLUMN_COUNT, columnCount );
-		fragment.setArguments( args );
 		return fragment;
 	}
 
@@ -60,11 +59,7 @@ public class UserRankingFragment extends Fragment
 	public void onCreate( Bundle savedInstanceState )
 	{
 		super.onCreate( savedInstanceState );
-
-		if ( getArguments() != null )
-		{
-			mColumnCount = getArguments().getInt( ARG_COLUMN_COUNT );
-		}
+		db = FirebaseFirestore.getInstance();
 	}
 
 	/**
@@ -83,20 +78,18 @@ public class UserRankingFragment extends Fragment
 		// Set the adapter
 		if ( view instanceof RecyclerView )
 		{
-			Context context = view.getContext();
 			RecyclerView recyclerView = ( RecyclerView ) view;
-			if ( mColumnCount <= 1 )
-			{
-				recyclerView.setLayoutManager( new LinearLayoutManager( context ) );
-			}
-			else
-			{
-				recyclerView.setLayoutManager( new GridLayoutManager( context , mColumnCount ) );
-			}
-
-			mUserList = new ArrayList<>();
-			mAdapter = new UserRankingAdapter( mUserList );
-			recyclerView.setAdapter( mAdapter );
+			db.collection( Constants.DB_USERS_COLLECTION ).orderBy( Constants.DB_FIELD_DUCKS, Query.Direction.DESCENDING ).limit( 10 ).get()
+					.addOnCompleteListener( task -> {
+						mUserList = new ArrayList<>();
+						for ( DocumentSnapshot document : task.getResult() )
+						{
+							User user = document.toObject( User.class );
+							mUserList.add( user );
+						}
+						mAdapter = new UserRankingAdapter( mUserList );
+						recyclerView.setAdapter( mAdapter );
+					} );
 		}
 		return view;
 	}

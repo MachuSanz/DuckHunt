@@ -9,6 +9,7 @@ public class Constants
 	public static final String ID_EXTRA = "machucapps.com.duckhunt.ID_EXTRA";
 	public static final int NICK_NAME_LENGHT = 3;
 	public static final String DB_USERS_COLLECTION = "users";
-	public static final String DB_FIELD_NICK= "nick";
-	public static final String DB_FIELD_DUCKS= "ducks";
+	public static final String DB_FIELD_NICK = "nick";
+	public static final String DB_FIELD_DUCKS = "ducks";
+	public static final int ACTIVITY_REQUEST_CODE = 100;
 }

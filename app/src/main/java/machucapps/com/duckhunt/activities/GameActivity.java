@@ -14,6 +14,7 @@ import android.view.Display;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -90,7 +91,6 @@ public class GameActivity extends AppCompatActivity
 		getIntentExtras();
 		setCustomTypeface();
 		initScreen();
-		moveDuck();
 		initCountDown();
 	}
 
@@ -139,6 +139,8 @@ public class GameActivity extends AppCompatActivity
 		mScreenWidth = size.x;
 		mScreenHeight = size.y;
 		mRandom = new Random();
+
+		moveDuck();
 	}
 
 	/**
@@ -172,7 +174,11 @@ public class GameActivity extends AppCompatActivity
 	 */
 	private void saveResultFirestore( int numDucks )
 	{
-		db.collection( Constants.DB_USERS_COLLECTION ).document( mUserId ).update( Constants.DB_FIELD_DUCKS, numDucks );
+		if ( null != mUserId )
+		{
+			db.collection( Constants.DB_USERS_COLLECTION ).document( mUserId ).update( Constants.DB_FIELD_DUCKS, numDucks );
+		}
+
 	}
 
 	/**
@@ -197,6 +203,7 @@ public class GameActivity extends AppCompatActivity
 		} );
 
 		builder.setNeutralButton( getString( R.string.game_over_dialog_neutral_message_text ), ( ( dialogInterface, i ) -> {
+			dialogInterface.dismiss();
 			initRankingActivity();
 		} ) );
 
@@ -211,7 +218,7 @@ public class GameActivity extends AppCompatActivity
 	 */
 	private void initRankingActivity()
 	{
-		startActivity( new Intent( GameActivity.this , RankingActivity.class ) );
+		startActivityForResult( new Intent( GameActivity.this , RankingActivity.class ), Constants.ACTIVITY_REQUEST_CODE );
 	}
 
 	/**
@@ -255,5 +262,22 @@ public class GameActivity extends AppCompatActivity
 
 		mIvDuck.setX( randomX );
 		mIvDuck.setY( randomY );
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @param requestCode
+	 * @param resultCode
+	 * @param data
+	 */
+	@Override
+	protected void onActivityResult( int requestCode, int resultCode, @Nullable Intent data )
+	{
+		super.onActivityResult( requestCode, resultCode, data );
+		if ( requestCode == Constants.ACTIVITY_REQUEST_CODE )
+		{
+			finish();
+		}
 	}
 }
