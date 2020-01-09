@@ -1,4 +1,4 @@
 # DuckHunt
-DuckHunt is an application made during the course "Android Juegos 2D + Firebase + Multiplayer Online desde cero" by Udemy platform where I applied my Android knowledge and improved my Andorid skills using new tools, technologies or new methodologies. 
+DuckHunt es una aplicación desarrollada durante el curso "Android Juegos 2D + Firebase + Multiplayer Online desde cero" impartido en la plataforma Online Udemy, donde he aplicado mis conocimientos de Android y mejorado mis aptitudes utilizando nuevas herramientas o nuevas metodologías.
 
-You can check the course visiting the Udemy's course URL (https://www.udemy.com/android-juegos-2d-desde-cero/) or GitHub's page (https://github.com/Android-Avanzado/androidgames)
+Puedes comprobar el curso visitando la URL de Udemy (https://www.udemy.com/android-juegos-2d-desde-cero/) o su página de GitHub (https://github.com/Android-Avanzado/androidgames)
